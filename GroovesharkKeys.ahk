@@ -10,7 +10,7 @@
 #SingleInstance
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-SetTitleMatchMode 2
+SetTitleMatchMode 2 ;
 SetNumLockState, On
 SetNumLockState, AlwaysOn
 SetScrollLockState, AlwaysOn
@@ -32,38 +32,70 @@ SetScrollLockState, AlwaysOn
 
 ; F16 / Clear - Grooveshark to Foreground
 SC045::
-	WinGet, WindowStatus, MinMax, Grooveshark
-	if(WindowStatus == 0) ; If small mode is showing => show large mode
+	WinGet, WindowYoutube, Count, YouTube
+	if(WindowYoutube == 0)
 	{
-		WinMaximize, Grooveshark
-		WinSet, Transparent, 255, Grooveshark
-		WinSet, Transparent, OFF, Grooveshark
-		WinSet, AlwaysOnTop, Off, Grooveshark
-		WinSet, Style, +0xC00000, Grooveshark
+		WinGet, WindowStatus, MinMax, Grooveshark
+		if(WindowStatus == 0) ; If small mode is showing => show large mode
+		{
+			WinMaximize, Grooveshark
+			WinSet, Transparent, 255, Grooveshark
+			WinSet, Transparent, OFF, Grooveshark
+			WinSet, AlwaysOnTop, Off, Grooveshark
+			WinSet, Style, +0xC00000, Grooveshark
+		}
+		else ; Restore to small mode
+		{
+			WinRestore, Grooveshark
+			; WinMove,,1000,500,200,200,Grooveshark 
+			WinSet, Transparent, 150, Grooveshark
+			WinSet, AlwaysOnTop, On, Grooveshark
+			WinSet, Style, -0xC00000, Grooveshark
+		}
 	}
-	else ; Restore to small mode
+	else
 	{
-		WinRestore, Grooveshark
-		; WinMove,,1000,500,200,200,Grooveshark 
-		WinSet, Transparent, 210, Grooveshark
-		WinSet, AlwaysOnTop, On, Grooveshark
-		WinSet, Style, -0xC00000, Grooveshark
+	
 	}
-    return
+	return
 
 	
 ; F17 - Previous Song
 SC068::
-    ControlSend, , {CTRL DOWN}{LEFT}{CTRL UP}, Grooveshark
+	WinGet, WindowYoutube, Count, YouTube
+	if(WindowYoutube == 0)
+	{
+		ControlSend, , {CTRL DOWN}{LEFT}{CTRL UP}, Grooveshark
+	}
+	else
+	{
+		ControlSend, , {LEFT}, YouTube
+	}
     return
 
 ; F18 - Play/Pause
 SC069::
-    ControlSend, , {SPACE}, Grooveshark
+	WinGet, WindowYoutube, Count, YouTube
+	if(WindowYoutube == 0)
+	{
+		ControlSend, , {SPACE}, Grooveshark
+	}
+	else
+	{
+		ControlSend, , {SPACE}, YouTube
+	}
     return
 
 ; F19 - Next Song
 SC06A::
-    ControlSend, , {CTRL DOWN}{RIGHT}{CTRL UP}, Grooveshark
+	WinGet, WindowYoutube, Count, YouTube
+	if(WindowYoutube == 0)
+	{
+		ControlSend, , {CTRL DOWN}{RIGHT}{CTRL UP}, Grooveshark
+	}
+	else
+	{
+		ControlSend, , {RIGHT}, YouTube
+	}
     return
 
